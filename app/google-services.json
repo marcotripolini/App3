@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "413247955498",
+    "project_id": "provola003-cfe98",
+    "storage_bucket": "provola003-cfe98.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:413247955498:android:b978805b8ff0b1e5341953",
+        "android_client_info": {
+          "package_name": "it.improvity.app3"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDhaVfZIaq4XX3g8csw86MA86azDBDy5DY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
