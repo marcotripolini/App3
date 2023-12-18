@@ -7,12 +7,15 @@ import android.speech.tts.TextToSpeech
 // Libreria per autenticazione
 import com.google.firebase.auth.FirebaseAuth
 import java.security.MessageDigest
+import java.util.Locale
 
 
 class MainActivity : AppCompatActivity() {
+    private lateinit var textToSpeech: TextToSpeech
+
     // oggetto per l'autenticazione generato con getInstance()
     val auth: FirebaseAuth = FirebaseAuth.getInstance()
-    private var tts: TextToSpeech? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -41,15 +44,27 @@ class MainActivity : AppCompatActivity() {
         FirebaseAuth.getInstance().signOut()
         // *****************************************
 
+        textToSpeech = TextToSpeech(this) { status ->
+            if (status == TextToSpeech.SUCCESS) {
+                // Imposta la lingua desiderata qui
+                val result = textToSpeech.setLanguage(Locale.ITALIAN)
 
+                if (result == TextToSpeech.LANG_MISSING_DATA || result == TextToSpeech.LANG_NOT_SUPPORTED) {
+                    Log.e("TTS", "La lingua specificata non è supportata!")
+                } else {
+                    // Puoi abilitare i bottoni per la sintesi vocale qui
+                    speakOut()
+                }
+            } else {
+                Log.e("TTS", "Inizializzazione fallita!")
+            }
+        }
     }
 
     private fun speakOut() {
-        val text = "La Vispa Teresa"
-        tts!!.speak(text, TextToSpeech.QUEUE_FLUSH, null,"")
+        val text = "Ciao, sono il tuo assistente vocale!"
+        textToSpeech.speak(text, TextToSpeech.QUEUE_FLUSH, null, "")
     }
-
-
 
     // due fasi di autenticazione
     // 1. registrazione utente
@@ -68,6 +83,12 @@ class MainActivity : AppCompatActivity() {
                     Log.w("Registration", "createUserWithEmail:failure", task.exception)
                 }
             }
+    }
+
+    override fun onDestroy() {
+        textToSpeech.stop()
+        textToSpeech.shutdown()
+        super.onDestroy()
     }
 
     // dopo aver fatto la registerUser ti salvi l'utente e la password dentro delle SharedPreferences e poi fai il login
@@ -97,4 +118,5 @@ class MainActivity : AppCompatActivity() {
             String.format("%02x", it)
         }
     }
+
 }
