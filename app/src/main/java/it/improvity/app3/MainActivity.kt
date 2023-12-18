@@ -39,6 +39,7 @@ class MainActivity : AppCompatActivity() {
             // L'utente non è connesso
         }
 
+
         // *****************************************
         // logout dell'utente
         FirebaseAuth.getInstance().signOut()
