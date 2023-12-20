@@ -4,7 +4,6 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.speech.tts.TextToSpeech
-// Libreria per autenticazione
 import com.google.firebase.auth.FirebaseAuth
 import java.security.MessageDigest
 import java.util.Locale
@@ -45,6 +44,7 @@ class MainActivity : AppCompatActivity() {
         FirebaseAuth.getInstance().signOut()
         // *****************************************
 
+        // configurazione sintesi vocale
         textToSpeech = TextToSpeech(this) { status ->
             if (status == TextToSpeech.SUCCESS) {
                 val result = textToSpeech.setLanguage(Locale.ITALIAN)
@@ -62,8 +62,10 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun speakOut() {
-        val text = "Ciao, sono il tuo assistente vocale!"
+        val text = "Ciao, sono il tuo assistente vocale! Ma come ci si diverte usando queste belle funzioncine! Zio Banana!"
         textToSpeech.speak(text, TextToSpeech.QUEUE_FLUSH, null, "")
+       textToSpeech.speak("ullallà", TextToSpeech.QUEUE_FLUSH, null, "")
+
     }
 
     // due fasi di autenticazione
@@ -119,7 +121,6 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-
     fun sha(input: String): String {
         val md = MessageDigest.getInstance("SHA-256")
         val digest = md.digest(input.toByteArray())
@@ -133,5 +134,4 @@ class MainActivity : AppCompatActivity() {
         val digest = md.digest(this.toByteArray(Charsets.UTF_8))
         return digest.joinToString("") { "%02x".format(it) }
     }
-
 }
