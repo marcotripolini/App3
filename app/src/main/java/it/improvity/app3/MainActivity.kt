@@ -22,10 +22,11 @@ class MainActivity : AppCompatActivity() {
         // speakOut()
         // **************************************
         val md5 = md5("ziobanana")
+        val sha = sha("ziobanana")
         // **************************************
         // registerUser("marco.tripolini@outlook.it", "ziobanana")
         // loginUser("marco.tripolini@outlook.it","ziobanana")
-        // prima excetpion:
+        // prima exception:
         // loginUser("marco.tripolini@outlook.ot","ziobanana")
         // nuovo caso d'uso: utente già registrato
         // che tenta di registrarsi nuovamente
@@ -39,7 +40,6 @@ class MainActivity : AppCompatActivity() {
             // L'utente non è connesso
         }
 
-
         // *****************************************
         // logout dell'utente
         FirebaseAuth.getInstance().signOut()
@@ -47,7 +47,6 @@ class MainActivity : AppCompatActivity() {
 
         textToSpeech = TextToSpeech(this) { status ->
             if (status == TextToSpeech.SUCCESS) {
-                // Imposta la lingua desiderata qui
                 val result = textToSpeech.setLanguage(Locale.ITALIAN)
 
                 if (result == TextToSpeech.LANG_MISSING_DATA || result == TextToSpeech.LANG_NOT_SUPPORTED) {
@@ -118,6 +117,21 @@ class MainActivity : AppCompatActivity() {
         return digest.joinToString("") {
             String.format("%02x", it)
         }
+    }
+
+
+    fun sha(input: String): String {
+        val md = MessageDigest.getInstance("SHA-256")
+        val digest = md.digest(input.toByteArray())
+        return digest.joinToString("") {
+            String.format("%02x", it)
+        }
+    }
+
+    fun String.sha256(): String {
+        val md = MessageDigest.getInstance("SHA-256")
+        val digest = md.digest(this.toByteArray(Charsets.UTF_8))
+        return digest.joinToString("") { "%02x".format(it) }
     }
 
 }
